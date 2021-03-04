@@ -1,6 +1,7 @@
 - name: Clone a source code repository
   hosts: all
   gather_facts: no
+  become: yes
   become_user: molecule
   tasks:
     - name: Create checkout base dir in {{ pipeline_basedir }}
