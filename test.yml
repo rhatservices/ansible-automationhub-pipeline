@@ -1,0 +1,15 @@
+- name: Test role {{ pipeline_role }}
+  hosts: all
+  gather_facts: no
+  become: yes
+  become_user: molecule
+  tasks:
+    - name: Run molecule lint for role {{ pipeline_role }}
+      command: /home/molecule/bin/molecule-wrapper lint
+      args:
+        chdir: "{{ pipeline_dir }}/roles/{{ pipeline_role }}"
+
+    - name: Run molecule converge for role {{ pipeline_role }}
+      command: /home/molecule/bin/molecule-wrapper converge
+      args:
+        chdir: "{{ pipeline_dir }}/roles/{{ pipeline_role }}"
