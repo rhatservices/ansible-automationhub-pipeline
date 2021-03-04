@@ -9,6 +9,11 @@
       args:
         chdir: "{{ pipeline_dir }}/roles/{{ pipeline_role }}"
 
+    - name: run podman ps
+      command: /usr/bin/podman ps
+      args:
+        chdir: "{{ pipeline_dir }}/roles/{{ pipeline_role }}"
+
     - name: Run molecule converge for role {{ pipeline_role }}
       command: /home/molecule/bin/molecule-wrapper converge
       args:
