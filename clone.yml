@@ -1,4 +1,9 @@
-- name: Clone repository {{ pipeline_repository }}
-  git:
-    repo: "{{ pipeline_repository}}"
-    dest: "{{ pipeline_basedir/ }}"
+- name: Clone a source code repository
+  hosts: all
+  gather_facts: no
+  become_user: molecule
+  tasks:
+    - name: Clone repository {{ pipeline_repository }}
+      git:
+        repo: "{{ pipeline_repository}}"
+        dest: "{{ pipeline_basedir/ }}"
