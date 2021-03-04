@@ -4,13 +4,18 @@
   become: yes
   become_user: molecule
   tasks:
-    - name: Create checkout base dir in {{ pipeline_basedir }}
+    - name: Wipe {{ pipeline_dir }}
       file:
-        path: "{{ pipeline_basedir }}"
+        path: "{{ pipeline_dir }}"
+        state: absent
+
+    - name: Create checkout base dir in {{ pipeline_dir }}
+      file:
+        path: "{{ pipeline_dir }}"
         state: directory
         mode: 0755
 
     - name: Clone repository {{ pipeline_repository }}
       git:
         repo: "{{ pipeline_repository}}"
-        dest: "{{ pipeline_basedir }}/"
+        dest: "{{ pipeline_dir }}/"
