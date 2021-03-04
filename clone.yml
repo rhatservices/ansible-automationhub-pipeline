@@ -3,6 +3,12 @@
   gather_facts: no
   become_user: molecule
   tasks:
+    - name: Create checkout base dir in {{ pipeline_basedir }}
+      file:
+        path: "{{ pipeline_basedir }}"
+        state: directory
+        mode: 0755
+
     - name: Clone repository {{ pipeline_repository }}
       git:
         repo: "{{ pipeline_repository}}"
