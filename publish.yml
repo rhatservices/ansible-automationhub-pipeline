@@ -5,7 +5,7 @@
   become_user: molecule
   tasks:
     - name: Build collection in  {{ pipeline_dir }}
-      command: /usr/bin/ansible-galaxy collection build
+      command: /usr/bin/ansible-galaxy collection build --force
       args:
         chdir: "{{ pipeline_dir }}"
 
