@@ -1,0 +1,15 @@
+- name: Publish collection
+  hosts: all
+  gather_facts: no
+  become: yes
+  become_user: molecule
+  tasks:
+    - name: Build collection in  {{ pipeline_idr }}
+      command: /usr/bin/ansible-galaxy collection build
+      args:
+        chdir: "{{ pipeline_dir }}"
+
+    - name: Publish collection to galaxy
+      command: "/usr/bin/ansible-galaxy collection publish "{{ pipeline_collection_namespace }}-{{ pipeline_collection_name }}-{{ pipeline_collection_version }}.tar.gz  -s https://{{ pipeline_galaxy_host }}/api/galaxy/content/inbound-{{ pipeline_collection_namespace }}/ --api-key {{ pipeline_galaxy_api_key }}"
+      args:
+        chdir: "{{ pipeline_dir }}"
