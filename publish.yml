@@ -9,8 +9,11 @@
       args:
         chdir: "{{ pipeline_dir }}"
 
+    - shell: cat "{{ pipeline_dir }}/galaxy.yml"
+      register: galaxy_config_content
+
     - set_fact:
-        galaxy_config: "{{ lookup('file', 'galaxy.yml') | from_yaml}}"
+        galaxy_config: "{{ galaxy_config_content.stdout | from_yaml }}"
 
     - name: Publish collection to galaxy
       command: "/usr/bin/ansible-galaxy collection publish {{ galaxy_config.namespace }}-{{ galaxy_config.name }}-{{ galaxy_config.version }}.tar.gz  -s https://{{ pipeline_galaxy_host }}/api/galaxy/content/inbound-{{ galaxy_config.namespace }}/ --api-key {{ pipeline_galaxy_api_key }} --ignore-certs"
