@@ -9,7 +9,10 @@
       args:
         chdir: "{{ pipeline_dir }}"
 
+    - set_fact:
+        galaxy_config: "{{ lookup('file', 'galaxy.yml') | from_yaml}}"
+
     - name: Publish collection to galaxy
-      command: "/usr/bin/ansible-galaxy collection publish {{ pipeline_collection_namespace }}-{{ pipeline_collection_name }}-{{ pipeline_collection_version }}.tar.gz  -s https://{{ pipeline_galaxy_host }}/api/galaxy/content/inbound-{{ pipeline_collection_namespace }}/ --api-key {{ pipeline_galaxy_api_key }} --ignore-certs"
+      command: "/usr/bin/ansible-galaxy collection publish {{ pipeline_collection_namespace }}-{{ pipeline_collection_name }}-{{ galaxy_config.version }}.tar.gz  -s https://{{ pipeline_galaxy_host }}/api/galaxy/content/inbound-{{ pipeline_collection_namespace }}/ --api-key {{ pipeline_galaxy_api_key }} --ignore-certs"
       args:
         chdir: "{{ pipeline_dir }}"
